@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import Loader from "./components/Loader";
+import Todo from "./components/Todo";
+import { TodoType } from "./types/Todo.types";
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -10,20 +13,11 @@ function App() {
       .then(response => response.json())
       .then(res => setTodos(res.slice(0, 10)))
       .catch(err => setError(err))
-
-  }, [])
-
-  // dependency array
-  // if the dependency array is present, the useEffect() will only
-  // be called one time, and no more
-  // but, if the dependency array is not at useEffect(), every time
-  // the component being rendered
-
-  // with dependency array, it works like "initState" from flutter stf widgets
+  }, []);
 
   return (
     <div className="App">
-      Hello World!
+      {todos.length > 0 ? todos.map((todo: TodoType) => <Todo todo={todo} />) : <Loader />}
     </div>
   );
 }
